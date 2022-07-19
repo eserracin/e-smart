@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <style type="text/css">
+            table{
+                border-collapse:collapse;
+                font-family:Arial, Helvetica, sans-serif;
+            }
+            td{
+                word-wrap:break-word
+            }
+            .dates{
+                font-size: 11px;
+            }
+            .dateToday{
+                font-size: 11px;
+                text-align: right;
+            }
+            .title{
+               text-align:center;
+            }
+            .tdCss{
+                font-size:8px;
+                text-align:inherit;
+                width:10%
+            }
+            .thCss {
+                font-weight: bold;
+                color:#f1f1f1;
+                font-size: 9px;
+                width:10%;
+                background-color: #808080;
+            }
+        </style>
+            <div>
+                <img src="data:image/png;base64,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" alt="CCB Logo">
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                       <th class="title" colspan={{size}}><h4>{{title}}</h4></th>
+                    </tr>
+                    <tr>
+                        <th class="title" colspan={{size}}><h5>Credicorp Bank</h5></th>
+                    </tr>
+                    <tr>
+                        <th class="dateToday" colspan={{size}}><p>Fecha del Reporte: {{dateToday}} </p></th>
+                    </tr>
+                    <tr>
+                        <th class="dates" colspan="4"><p>Fecha Desde: {{dateFrom}} </p></th>
+                        <th class="dates" colspan="4"><p>Fecha Hasta: {{dateTo}} </p></th>
+                    </tr>
+                    <tr>
+                        <th colspan={{size}}></th>
+                    </tr>
+                    <tr>
+                        {{#each table.columns}}
+                        <th class="thCss"><p>{{{this}}}</p></th>
+                        {{/each}}
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each table.content}}
+                    <tr>
+                            {{#each this}}
+                            <td class="tdCss">{{this}}</td>
+                            {{/each}}
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+    </body>
+</html>

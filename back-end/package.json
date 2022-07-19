@@ -1,0 +1,61 @@
+{
+  "name": "CCBP_CUS-APPS",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/server",
+    "nodemon": "nodemon ./bin/server localhost",
+    "forever": "forever start ./bin/server"
+  },
+  "nodemonConfig": {
+    "env": {
+      "NODE_ENV": "dev"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://tfs.ccbpanama.com/DfltCollection/_git/CCB-CUS-APPS"
+  },
+  "author": "Innovación <_it_innovacion@credicorpbank.com>",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.6.4",
+    "body-parser": "^1.19.0",
+    "chai": "~1.8.1",
+    "cocache": "^1.2.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "cron-cluster": "^1.1.3",
+    "custom-env": "^1.0.2",
+    "debug": "^2.1.1",
+    "express": "4.16.4",
+    "express-request-id": "^1.4.1",
+    "express-session": "^1.16.2",
+    "get-ssl-certificate": "^2.3.3",
+    "handlebars": "^4.3.4",
+    "helmet": "^3.20.1",
+    "html-pdf": "^2.2.0",
+    "html-to-docx": "^1.3.2",
+    "html2xlsx": "^0.4.2",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "jssha": "^3.2.0",
+    "md5": "^2.2.1",
+    "method-override": "^3.0.0",
+    "moment": "^2.29.3",
+    "morgan": "^1.9.1",
+    "mssql": "^5.1.0",
+    "node-cron": "^2.0.3",
+    "nodemailer": "^6.3.0",
+    "nodemon": "^1.19.4",
+    "parse-error": "^0.2.0",
+    "request": "^2.88.0",
+    "secure-env": "^1.0.0",
+    "sftp-promises": "^1.7.0",
+    "ssl-checker": "^2.0.7"
+  },
+  "devDependencies": {
+    "immutable": "^3.8.2"
+  }
+}

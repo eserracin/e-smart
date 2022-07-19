@@ -1,0 +1,131 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('ccbp:server');
+var https = require('https');
+var fs = require('fs');
+const cluster = require('cluster');
+const os = require('os');
+const cronC = require('../controllers/cron')
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.APP_PORT_HTTPS);
+app.set('port', port);
+
+
+var options = {
+  key: fs.readFileSync(__dirname + '/cert_qa/credicorpbank/ccb-key.pem'),
+  cert: fs.readFileSync(__dirname + '/cert_qa/credicorpbank/ccbcusappqa.pem')
+  // ca: fs.readFileSync(__dirname + '/cert/ca_bundle.pem')
+};
+
+/**
+ * EventEmitter.
+ */
+
+require('events').EventEmitter.defaultMaxListeners = 0;
+
+let workers = [];
+/**
+ * Create HTTP server.
+ */
+if (cluster.isMaster) {
+  const cpus = os.cpus().length;
+  console.log(`Master ${process.pid} is running`);
+  for (let i = 0; i < cpus; i++) {
+    console.log(`Forking for ${i} CPUs`);
+
+    const worker = cluster.fork();
+    workers.push(worker);
+
+    // Listen for messages from worker
+    if (i == 0) {
+      worker.send({
+        msg: process.env.INIT_CRON
+      });
+    }
+  }
+} else {
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+  var server = https.createServer(options, app);
+  server.listen(port);
+  server.timeout = 120000;
+  server.on('error', onError);
+  server.on('listening', onListening);
+  console.log(`Worker ${process.pid} started`);
+
+  process.on('message', function(message) {
+    if(message.msg == 'INIT_CRON'){
+      cronC.startCronJob();
+    }
+  });
+}
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string' ?
+    'Pipe ' + port :
+    'Port ' + port
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string' ?
+    'pipe ' + addr :
+    'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
